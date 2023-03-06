@@ -27,6 +27,8 @@ module.exports = {
     "no-useless-escape": "warn",
     "no-plusplus": "warn",
     "react/no-unstable-nested-components": "off",
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn",
     "react/require-default-props": [
       "off",
       {
