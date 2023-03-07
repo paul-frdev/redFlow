@@ -1,9 +1,10 @@
-import { Text, View } from "react-native";
+import { Timer } from "@/components/Timer";
+import { MainLayout } from "@/components/layout/MainLayout";
 
 export const HomeScreen = () => {
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
+    <MainLayout title="Home">
+      <Timer />
+    </MainLayout>
   );
 };

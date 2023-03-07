@@ -1,4 +1,4 @@
-import { MenuItem } from "./MenuItem";
+import { MenuItem } from "../MenuItem";
 import { menuData } from "@/constants/menuData";
 import { TypeNav } from "@/types/bottomMenu";
 import { FC } from "react";
