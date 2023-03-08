@@ -1,8 +1,7 @@
 import { validEmail } from "./email.rgx";
-import useAuth from "@/hooks/useAuth";
 import { IAuthFormData } from "@/types/auth";
 import { FC } from "react";
-import { Control, Controller, SubmitHandler } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 import { Text, TextInput, View } from "react-native";
 
 interface ILoginFormProps {}

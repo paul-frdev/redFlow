@@ -29,6 +29,7 @@ module.exports = {
     "react/no-unstable-nested-components": "off",
     "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "warn",
+    "react-native/no-inline-styles": "off",
     "react/require-default-props": [
       "off",
       {

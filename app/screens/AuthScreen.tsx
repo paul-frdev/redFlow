@@ -1,12 +1,11 @@
 import { LoginForm } from "@/components/forms/LoginForm";
-import { validEmail } from "@/components/forms/email.rgx";
 import { Button } from "@/components/ui/Button";
 import { Loader } from "@/components/ui/Loader";
 import useAuth from "@/hooks/useAuth";
 import { IAuthFormData } from "@/types/auth";
 import { useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Keyboard, Pressable, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Keyboard, Pressable, Text, TouchableWithoutFeedback, View } from "react-native";
 
 export const AuthScreen = () => {
   const [isReg, setIsReg] = useState(false);
