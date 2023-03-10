@@ -6,6 +6,9 @@ module.exports = {
       backgroundColor: {
         primary: "#664efe",
       },
+      borderColor: {
+        primary: "#664efe",
+      },
     },
   },
   plugins: [],
