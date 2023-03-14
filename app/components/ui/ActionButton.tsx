@@ -13,7 +13,7 @@ export const ActionButton: FC<IActionButtonProps> = ({ iconName, color, onPress,
   return (
     <Pressable
       onPress={onPress}
-      className={`${!isPlaying ? "pl-1" : "pl-0"} mt-10 bg-primary rounded-full w-[65px] h-[65px] justify-center items-center self-center`}
+      className={`${!isPlaying ? "pl-1" : "pl-0"} mx-10 bg-primary rounded-full w-[65px] h-[65px] justify-center items-center self-center`}
       style={{
         shadowColor: GlobalStyles.primary,
         shadowOffset: {
