@@ -1,3 +1,4 @@
+import { SessionIndicator } from "./SessionIndicator";
 import { ActionButton } from "./ui/ActionButton";
 import { ArrowLeft } from "./ui/ArrowLeft";
 import { ArrowRight } from "./ui/ArrowRight";
@@ -6,8 +7,9 @@ import { GlobalStyles } from "@/constants/colors";
 import { EnumStatus } from "@/types/timer";
 import { AntDesign } from "@expo/vector-icons";
 import clx from "clsx";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Text, View } from "react-native";
+import ConfettiCannon from "react-native-confetti-cannon";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 const flowDuration = 5;
@@ -19,7 +21,10 @@ export const Timer = () => {
   const [isAction, setIsAction] = useState(false);
   const [status, setStatus] = useState<EnumStatus>(EnumStatus.WORK);
   const [curSession, setCurSession] = useState(1);
+  const [curBreak, setCurBreak] = useState(0);
   const [key, setKey] = useState(0);
+
+  const confettiRef = useRef<ConfettiCannon>(null);
 
   const isAllSessionsCompleted = curSession === sessionCount;
   const currentDuration = status === EnumStatus.REST ? breakDuration : flowDuration;
@@ -28,6 +33,9 @@ export const Timer = () => {
     if (curSession !== 1) {
       setCurSession(prev => prev - 1);
       setKey(prev => prev - 1);
+      if (curSession % 2) {
+        setCurBreak(prev => prev - 1);
+      }
     }
   };
   const handleCircleNext = () => {
@@ -47,6 +55,7 @@ export const Timer = () => {
 
   return (
     <View className="flex-1 justify-center">
+      <ConfettiCannon ref={confettiRef} autoStart={false} count={200} origin={{ x: 0, y: 0 }} />
       <Button onPress={handleReset} iconName="ccw" className="bg-transparent self-end" />
       <View className="self-center items-center">
         <CountdownCircleTimer
@@ -60,13 +69,14 @@ export const Timer = () => {
             setIsAction(false);
 
             if (isAllSessionsCompleted) {
-              // Animation
+              confettiRef.current?.start();
               setStatus(EnumStatus.COMPLETED);
             }
             setKey(prev => prev + 1);
 
             if (curSession % 2 === 0) {
               setStatus(EnumStatus.REST);
+              setCurBreak(prev => prev + 1);
             } else {
               setCurSession(prev => prev + 1);
             }
@@ -103,40 +113,7 @@ export const Timer = () => {
           }}
         </CountdownCircleTimer>
 
-        <View className="mt-14 flex-row justify-center">
-          {Array.from(Array(sessionCount)).map((_, index) => (
-            <View className="flex-row items-center justify-center" key={`point ${index}`}>
-              <View
-                className={clx(
-                  "rounded-full border-[4px]",
-                  isSmallIndicator ? "w-4 h-4" : " w-5 h-5",
-                  index + 1 === curSession ? "border-[#664efe] bg-transparent w-6 h-6" : "border-transparent bg-[#2c2b3c]",
-                  {
-                    "bg-primary opacity-70": index + 1 <= curSession && index + 1 !== curSession,
-                  }
-                )}
-              />
-              {index + 1 !== sessionCount && (
-                <View className="relative">
-                  {curSession % 2 === 0 && status === EnumStatus.REST && (
-                    <View className={`absolute bottom-5 w-8 h-auto ${sessionCount > 7 ? "left-[-5px]" : "left-[-2px]"}`}>
-                      <AntDesign
-                        className="z-10"
-                        style={{ opacity: curSession === index + 1 ? 1 : 0 }}
-                        name="rest"
-                        color={curSession === index + 1 ? "#664efe" : "#2c2b3c"}
-                        size={30}
-                      />
-                    </View>
-                  )}
-                  <View
-                    className={clx("w-5 h-0.5", index + 1 < curSession ? "bg-primary opacity-70" : "bg-[#2c2b3c]", isSmallIndicator ? "w-3" : "w-5")}
-                  />
-                </View>
-              )}
-            </View>
-          ))}
-        </View>
+        <SessionIndicator status={status} sessionCount={sessionCount} isSmallIndicator={isSmallIndicator} curSession={curSession} />
       </View>
       <View className="flex-row  mt-10 justify-center items-center">
         <ArrowLeft iconName="chevron-left" size={38} onPress={handlePCircleRev} color={GlobalStyles.primary} />
